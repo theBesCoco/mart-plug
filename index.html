@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Plug</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #101827;
+      color: white;
+      text-align: center;
+      padding: 30px 15px;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 50px auto;
+      padding: 25px;
+      background: #1e293b;
+      border-radius: 20px;
+    }
+
+    h1 {
+      color: #38bdf8;
+    }
+
+    .status {
+      font-size: 28px;
+      margin: 25px;
+      font-weight: bold;
+    }
+
+    button {
+      width: 120px;
+      padding: 15px;
+      margin: 10px;
+      border: none;
+      border-radius: 12px;
+      font-size: 18px;
+      cursor: pointer;
+      color: white;
+    }
+
+    .on {
+      background: #16a34a;
+    }
+
+    .off {
+      background: #dc2626;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>SMART PLUG</h1>
+    <p>ระบบควบคุมปลั๊กไฟอัจฉริยะ</p>
+
+    <div class="status" id="status">
+      OFF
+    </div>
+
+    <button class="on" onclick="turnOn()">ON</button>
+    <button class="off" onclick="turnOff()">OFF</button>
+
+    <p>ESP32 Smart Plug Control</p>
+  </div>
+
+  <script>
+    function turnOn() {
+      document.getElementById("status").innerText = "ON";
+    }
+
+    function turnOff() {
+      document.getElementById("status").innerText = "OFF";
+    }
+  </script>
+
+</body>
+</html>
