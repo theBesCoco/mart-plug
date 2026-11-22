@@ -2,83 +2,249 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Smart Plug</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Plug</title>
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #101827;
-      color: white;
-      text-align: center;
-      padding: 30px 15px;
-    }
+<style>
+* {
+  box-sizing: border-box;
+}
 
-    .container {
-      max-width: 400px;
-      margin: 50px auto;
-      padding: 25px;
-      background: #1e293b;
-      border-radius: 20px;
-    }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: white;
+  background:
+    radial-gradient(ellipse at top, #123b79, #061329 65%);
+  min-height: 100vh;
+}
 
-    h1 {
-      color: #38bdf8;
-    }
+header {
+  padding: 20px 7%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #087cff;
+  background: #061329;
+}
 
-    .status {
-      font-size: 28px;
-      margin: 25px;
-      font-weight: bold;
-    }
+header h2 {
+  margin: 0;
+  color: #38bdf8;
+}
 
-    button {
-      width: 120px;
-      padding: 15px;
-      margin: 10px;
-      border: none;
-      border-radius: 12px;
-      font-size: 18px;
-      cursor: pointer;
-      color: white;
-    }
+.wifi {
+  color: #22e58a;
+}
 
-    .on {
-      background: #16a34a;
-    }
+.hero {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 30px;
+}
 
-    .off {
-      background: #dc2626;
-    }
-  </style>
+.hero h1 {
+  font-size: clamp(38px, 7vw, 65px);
+  margin: 0;
+  color: #38bdf8;
+  text-shadow: 0 0 20px #087cff;
+}
+
+.hero p {
+  font-size: 19px;
+  color: #cbd5e1;
+}
+
+.plug-picture {
+  width: 220px;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 35px;
+  background: linear-gradient(145deg, #ffffff, #b9d5ff);
+  box-shadow: 0 0 35px #087cff;
+}
+
+.plug-picture svg {
+  width: 150px;
+  height: 150px;
+}
+
+.container {
+  max-width: 700px;
+  margin: 20px auto 50px;
+  padding: 35px 25px;
+  text-align: center;
+  border: 1px solid #168bff;
+  border-radius: 25px;
+  background: rgba(10, 30, 65, 0.85);
+  box-shadow: 0 0 25px rgba(0, 130, 255, 0.3);
+}
+
+.container h2 {
+  font-size: 28px;
+}
+
+.status {
+  margin: 25px auto;
+  padding: 18px;
+  max-width: 350px;
+  font-size: 38px;
+  font-weight: bold;
+  border: 2px solid #168bff;
+  border-radius: 20px;
+  background: #07162f;
+}
+
+.status.on {
+  color: #22e58a;
+  box-shadow: 0 0 20px #16a34a;
+}
+
+.status.off {
+  color: #94a3b8;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+button {
+  width: 145px;
+  padding: 17px;
+  border: none;
+  border-radius: 15px;
+  color: white;
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+.on {
+  background: #16c75b;
+  box-shadow: 0 0 15px #16c75b;
+}
+
+.off {
+  background: #dc3030;
+  box-shadow: 0 0 15px #dc3030;
+}
+
+footer {
+  padding: 22px;
+  text-align: center;
+  color: #94a3b8;
+  border-top: 1px solid #087cff;
+}
+
+@media(max-width: 600px) {
+  header {
+    padding: 18px;
+  }
+
+  .hero {
+    text-align: center;
+    margin: 20px auto;
+  }
+
+  .container {
+    margin: 15px;
+  }
+
+  button {
+    width: 120px;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <div class="container">
+<header>
+  <h2>⌂ Smart Plug</h2>
+  <div class="wifi">● Wi-Fi Connected</div>
+</header>
+
+<section class="hero">
+
+  <div>
     <h1>SMART PLUG</h1>
     <p>ระบบควบคุมปลั๊กไฟอัจฉริยะ</p>
-
-    <div class="status" id="status">
-      OFF
-    </div>
-
-    <button class="on" onclick="turnOn()">ON</button>
-    <button class="off" onclick="turnOff()">OFF</button>
-
-    <p>ESP32 Smart Plug Control</p>
+    <p>Control Your Home • Smart Life</p>
   </div>
 
-  <script>
-    function turnOn() {
-      document.getElementById("status").innerText = "ON";
-    }
+  <div class="plug-picture">
+    <svg viewBox="0 0 160 160" fill="none">
+      <rect x="25" y="15" width="110" height="130"
+        rx="22" fill="#eaf3ff" stroke="#9bbbe9"
+        stroke-width="3"/>
+      <rect x="70" y="38" width="20" height="35"
+        rx="8" fill="#172b48"/>
+      <circle cx="57" cy="94" r="10" fill="#172b48"/>
+      <circle cx="103" cy="94" r="10" fill="#172b48"/>
+      <circle cx="80" cy="125" r="7" fill="#38bdf8"/>
+    </svg>
+  </div>
 
-    function turnOff() {
-      document.getElementById("status").innerText = "OFF";
-    }
-  </script>
+</section>
+
+<div class="container">
+
+  <h2>🔌 ปลั๊กไฟอัจฉริยะ</h2>
+
+  <p>สถานะปัจจุบัน</p>
+
+  <div class="status off" id="status">
+    OFF
+  </div>
+
+  <div class="buttons">
+    <button class="on" onclick="turnOn()">
+      ⏻ ON
+    </button>
+
+    <button class="off" onclick="turnOff()">
+      ⏻ OFF
+    </button>
+  </div>
+
+</div>
+
+<footer>
+  ESP32 Smart Plug Control
+  <br><br>
+  ระบบควบคุมปลั๊กไฟอัจฉริยะ
+</footer>
+
+<script>
+
+function turnOn() {
+  document.getElementById("status").innerText = "ON";
+  document.getElementById("status").className = "status on";
+}
+
+function turnOff() {
+  document.getElementById("status").innerText = "OFF";
+  document.getElementById("status").className = "status off";
+}
+
+</script>
 
 </body>
 </html>
+
