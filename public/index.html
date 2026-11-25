@@ -1,0 +1,334 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Plug Control</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      color: white;
+      background:
+        radial-gradient(ellipse at 20% 55%, #073c80 0%, transparent 45%),
+        radial-gradient(ellipse at 85% 20%, #092d61 0%, transparent 45%),
+        linear-gradient(135deg, #020b1c, #061a39 55%, #020817);
+    }
+
+    header {
+      height: 82px;
+      padding: 0 4%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #087dff;
+      box-shadow: 0 3px 20px #087dff66;
+      background: #020b1ce8;
+    }
+
+    .brand {
+      font-size: 30px;
+      font-weight: bold;
+      color: white;
+    }
+
+    .brand span {
+      color: #00baff;
+    }
+
+    .connection {
+      color: #94a3b8;
+      font-size: 15px;
+    }
+
+    .connection.online {
+      color: #00e68a;
+    }
+
+    main {
+      max-width: 1250px;
+      margin: auto;
+      padding: 55px 25px;
+      display: grid;
+      grid-template-columns: 1fr 1.25fr;
+      align-items: center;
+      gap: 45px;
+    }
+
+    .plug-area {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 390px;
+    }
+
+    .plug {
+      width: 250px;
+      height: 300px;
+      border-radius: 45px;
+      background: linear-gradient(145deg, #ffffff, #c9d7ed);
+      box-shadow:
+        0 0 30px #159fff,
+        0 0 75px #007bff66,
+        inset -12px -10px 20px #8295b8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .plug-title {
+      color: #102b50;
+      font-size: 17px;
+      font-weight: bold;
+      margin-bottom: 22px;
+    }
+
+    .socket {
+      width: 100px;
+      height: 100px;
+      border: 7px solid #17345b;
+      border-radius: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 48px;
+      color: #17345b;
+      background: #eaf2ff;
+    }
+
+    .plug-light {
+      position: absolute;
+      right: -20px;
+      top: 115px;
+      width: 45px;
+      height: 65px;
+      border-radius: 20px;
+      background: #00bfff;
+      box-shadow: 0 0 25px #00bfff;
+    }
+
+    .control-area h1 {
+      font-size: clamp(34px, 5vw, 60px);
+      margin-bottom: 8px;
+      font-style: italic;
+    }
+
+    .control-area h1 span {
+      color: #00baff;
+    }
+
+    .subtitle {
+      font-size: 19px;
+      color: #d3e4ff;
+      margin-bottom: 30px;
+    }
+
+    .panel {
+      border: 2px solid #139cff;
+      border-radius: 30px;
+      padding: 30px;
+      background: #061b38cc;
+      box-shadow:
+        0 0 20px #078bff66,
+        inset 0 0 25px #087dff22;
+    }
+
+    .panel-heading {
+      text-align: center;
+      font-size: 23px;
+      margin-bottom: 22px;
+    }
+
+    .status {
+      text-align: center;
+      font-size: 48px;
+      font-weight: bold;
+      border: 2px solid #258dff;
+      border-radius: 25px;
+      padding: 12px;
+      margin-bottom: 25px;
+      background: #06142b;
+    }
+
+    .status.on {
+      color: #00ed88;
+      text-shadow: 0 0 15px #00ed88;
+    }
+
+    .status.off {
+      color: #ff5252;
+      text-shadow: 0 0 15px #ff5252;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    button {
+      border: none;
+      border-radius: 20px;
+      padding: 20px 10px;
+      color: white;
+      font-size: 25px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    button:active:not(:disabled) {
+      transform: scale(0.96);
+    }
+
+    .on-button {
+      background: linear-gradient(135deg, #00d878, #009c50);
+      box-shadow: 0 0 20px #00d87866;
+    }
+
+    .off-button {
+      background: linear-gradient(135deg, #ff4b4b, #c90028);
+      box-shadow: 0 0 20px #ff333366;
+    }
+
+    .message {
+      text-align: center;
+      color: #a9c7eb;
+      margin-top: 20px;
+      min-height: 22px;
+      font-size: 14px;
+    }
+
+    footer {
+      margin-top: 15px;
+      padding: 22px;
+      border-top: 2px solid #087dff;
+      text-align: center;
+      color: #b9d8ff;
+      box-shadow: 0 -3px 20px #087dff33;
+    }
+
+    @media (max-width: 750px) {
+      header {
+        height: 70px;
+      }
+
+      .brand {
+        font-size: 23px;
+      }
+
+      main {
+        grid-template-columns: 1fr;
+        padding: 35px 18px;
+        gap: 20px;
+      }
+
+      .plug-area {
+        min-height: 300px;
+      }
+
+      .plug {
+        transform: scale(0.85);
+      }
+
+      .panel {
+        padding: 20px;
+      }
+
+      .buttons {
+        gap: 10px;
+      }
+
+      button {
+        font-size: 19px;
+        padding: 17px 5px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="brand">⌂ Smart <span>Plug</span></div>
+    <div id="connection" class="connection">
+      ● กำลังตรวจสอบการเชื่อมต่อ
+    </div>
+  </header>
+
+  <main>
+
+    <section class="plug-area">
+      <div class="plug">
+        <div class="plug-title">SMART PLUG</div>
+        <div class="socket">⚡</div>
+        <div class="plug-light"></div>
+      </div>
+    </section>
+
+    <section class="control-area">
+      <h1>SMART <span>PLUG</span></h1>
+      <p class="subtitle">ระบบควบคุมปลั๊กไฟอัจฉริยะ</p>
+
+      <div class="panel">
+        <div class="panel-heading">
+          ⚡ สถานะปัจจุบัน
+        </div>
+
+        <div id="status" class="status off">
+          UNKNOWN
+        </div>
+
+        <div class="buttons">
+          <button
+            id="onButton"
+            class="on-button"
+            onclick="sendCommand(true)"
+            disabled>
+            ⏻ ON
+          </button>
+
+          <button
+            id="offButton"
+            class="off-button"
+            onclick="sendCommand(false)"
+            disabled>
+            ⏻ OFF
+          </button>
+        </div>
+
+        <p id="message" class="message">
+          รอการเชื่อมต่อ ESP32
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    ESP32 Smart Plug Control
+    &nbsp; | &nbsp;
+    ระบบควบคุมผ่าน Wi-Fi
+    &nbsp; | &nbsp;
+    <span id="clock">--:--:--</span>
+  </footer>
+
+  <script src="/script.js"></script>
+
+</body>
+</html>
