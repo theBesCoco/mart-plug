@@ -1,0 +1,13 @@
+
+{
+  "name": "smart-plug",
+  "version": "1.0.0",
+  "description": "ESP32 Smart Plug Control System",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
